@@ -9,6 +9,7 @@ const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/auth');
 const dealsRoutes = require('./routes/deals');
 const subscriptionsRoutes = require('./routes/subscriptions');
+const searchRoutes = require('./routes/search');
 
 // Connect to database
 connectDB();
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/deals', dealsRoutes);
 app.use('/api/subscriptions', subscriptionsRoutes);
+app.use('/api/search', searchRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import LiveSearch from './pages/LiveSearch';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -48,6 +49,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/live-search"
+              element={
+                <ProtectedRoute>
+                  <LiveSearch />
                 </ProtectedRoute>
               }
             />

@@ -11,6 +11,7 @@ const Flight = require('./models/Flight');
 const Deal = require('./models/Deal');
 const logger = require('./config/logger');
 const DealScorer = require('./utils/dealScoring');
+const { getPopularRoutes } = require('./config/routes');
 
 // Import scrapers
 const googleFlightsScraper = require('./scrapers/googleFlightsScraper');
@@ -20,27 +21,8 @@ const skyscannerScraper = require('./scrapers/skyscannerScraper');
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI);
 
-// Routes to check (popular, high-traffic routes)
-const ROUTES = [
-  // Short-haul Asia (most popular)
-  { origin: 'DEL', destination: 'DXB', originCity: 'Delhi', destinationCity: 'Dubai' },
-  { origin: 'BOM', destination: 'DXB', originCity: 'Mumbai', destinationCity: 'Dubai' },
-  { origin: 'BLR', destination: 'SIN', originCity: 'Bengaluru', destinationCity: 'Singapore' },
-  { origin: 'DEL', destination: 'BKK', originCity: 'Delhi', destinationCity: 'Bangkok' },
-  { origin: 'BOM', destination: 'SIN', originCity: 'Mumbai', destinationCity: 'Singapore' },
-
-  // Medium-haul
-  { origin: 'DEL', destination: 'LHR', originCity: 'Delhi', destinationCity: 'London' },
-  { origin: 'BOM', destination: 'LHR', originCity: 'Mumbai', destinationCity: 'London' },
-
-  // Long-haul
-  { origin: 'DEL', destination: 'JFK', originCity: 'Delhi', destinationCity: 'New York' },
-  { origin: 'BOM', destination: 'JFK', originCity: 'Mumbai', destinationCity: 'New York' },
-
-  // Budget-friendly
-  { origin: 'DEL', destination: 'KTM', originCity: 'Delhi', destinationCity: 'Kathmandu' },
-  { origin: 'BLR', destination: 'KUL', originCity: 'Bengaluru', destinationCity: 'Kuala Lumpur' },
-];
+// Get popular routes (50 most searched routes)
+const ROUTES = getPopularRoutes();
 
 // Historical price estimates for deal detection
 const HISTORICAL_PRICES = {
@@ -121,7 +103,9 @@ async function scrapeDeals() {
     let routesChecked = 0;
     let totalScrapes = 0;
 
-    console.log(`🔍 Checking ${ROUTES.length} routes × ${dateRanges.length} dates\n`);
+    console.log(`🔍 Checking ${ROUTES.length} popular routes × ${dateRanges.length} dates`);
+    console.log(`📊 Total coverage: ${ROUTES.length * dateRanges.length} searches`);
+    console.log(`🌍 Destinations: UAE, Singapore, Thailand, UK, USA, Japan, and more!\n`);
 
     for (const route of ROUTES) {
       console.log(`\n📍 ${route.originCity} → ${route.destinationCity}`);

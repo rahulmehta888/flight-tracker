@@ -17,12 +17,12 @@ const Navbar = () => {
               <Link to="/dashboard" className="navbar-link">
                 Dashboard
               </Link>
+              <Link to="/live-search" className="navbar-link">
+                🔍 Live Search
+              </Link>
               <Link to="/profile" className="navbar-link">
                 Profile
               </Link>
-              <span className="navbar-link">
-                {user?.membershipTier === 'premium' ? '⭐ Premium' : '🆓 Free'}
-              </span>
               <button onClick={logout} className="btn btn-secondary">
                 Logout
               </button>
