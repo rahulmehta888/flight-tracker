@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { dealsAPI } from '../services/api';
-import DealCard from '../components/DealCard';
+import EnhancedDealCard from '../components/EnhancedDealCard';
 import { toast } from 'react-toastify';
 
 const Dashboard = () => {
@@ -174,11 +174,35 @@ const Dashboard = () => {
           <div className="spinner"></div>
         </div>
       ) : deals.length > 0 ? (
-        <div className="deals-grid">
-          {deals.map((deal) => (
-            <DealCard key={deal._id} deal={deal} />
-          ))}
-        </div>
+        <>
+          {/* Best Deal Highlight */}
+          {deals.length > 0 && deals[0].aiScore && deals[0].aiScore.total >= 85 && (
+            <div style={{
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              color: 'white',
+              padding: '1.5rem',
+              borderRadius: '16px',
+              marginBottom: '2rem',
+              boxShadow: '0 10px 25px rgba(16, 185, 129, 0.3)'
+            }}>
+              <div style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+                🏆 Best Deal Right Now
+              </div>
+              <div style={{ fontSize: '1.1rem', opacity: 0.95' }}>
+                {deals[0].flight.originCity} → {deals[0].flight.destinationCity}: Score {deals[0].aiScore.total}/100
+              </div>
+              <div style={{ fontSize: '0.9rem', opacity: 0.9', marginTop: '0.25rem' }}>
+                {deals[0].aiScore.explanation}
+              </div>
+            </div>
+          )}
+
+          <div className="deals-grid">
+            {deals.map((deal) => (
+              <EnhancedDealCard key={deal._id} deal={deal} />
+            ))}
+          </div>
+        </>
       ) : (
         <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
           <h2>No deals found</h2>

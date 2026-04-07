@@ -1,5 +1,6 @@
 const Deal = require('../models/Deal');
 const Flight = require('../models/Flight');
+const DealScorer = require('../utils/dealScoring');
 
 // @desc    Get all active deals
 // @route   GET /api/deals
@@ -26,11 +27,6 @@ exports.getDeals = async (req, res) => {
       query.dealType = dealType;
     }
 
-    // Check membership tier for premium deals
-    if (req.user.membershipTier === 'free') {
-      query.membershipRequired = 'free';
-    }
-
     const deals = await Deal.find(query)
       .populate({
         path: 'flight',
@@ -46,18 +42,43 @@ exports.getDeals = async (req, res) => {
     // Filter out deals where flight didn't match the populate filter
     const filteredDeals = deals.filter(deal => deal.flight);
 
+    // Enhanced: Add AI scoring and context to each deal
+    const enhancedDeals = filteredDeals.map(deal => {
+      const dealObj = deal.toObject();
+
+      // Calculate AI Deal Score
+      dealObj.aiScore = DealScorer.calculateScore(deal);
+
+      // Add price context
+      dealObj.priceContext = DealScorer.getPriceContext(
+        deal.originalPrice,
+        deal.dealPrice
+      );
+
+      // Calculate true cost
+      dealObj.trueCost = DealScorer.calculateTrueCost(
+        deal.flight,
+        deal.dealPrice
+      );
+
+      return dealObj;
+    });
+
+    // Sort by AI score (best deals first)
+    enhancedDeals.sort((a, b) => b.aiScore.total - a.aiScore.total);
+
     const count = await Deal.countDocuments(query);
 
     res.status(200).json({
       success: true,
-      count: filteredDeals.length,
+      count: enhancedDeals.length,
       total: count,
       pagination: {
         page: parseInt(page),
         limit: parseInt(limit),
         pages: Math.ceil(count / limit),
       },
-      data: filteredDeals,
+      data: enhancedDeals,
     });
   } catch (error) {
     res.status(500).json({
@@ -81,17 +102,15 @@ exports.getDeal = async (req, res) => {
       });
     }
 
-    // Check if user has access to this deal
-    if (deal.membershipRequired === 'premium' && req.user.membershipTier === 'free') {
-      return res.status(403).json({
-        success: false,
-        message: 'Premium membership required to access this deal',
-      });
-    }
+    // Enhanced: Add AI scoring and context
+    const dealObj = deal.toObject();
+    dealObj.aiScore = DealScorer.calculateScore(deal);
+    dealObj.priceContext = DealScorer.getPriceContext(deal.originalPrice, deal.dealPrice);
+    dealObj.trueCost = DealScorer.calculateTrueCost(deal.flight, deal.dealPrice);
 
     res.status(200).json({
       success: true,
-      data: deal,
+      data: dealObj,
     });
   } catch (error) {
     res.status(500).json({

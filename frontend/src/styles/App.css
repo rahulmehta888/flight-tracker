@@ -527,3 +527,27 @@ body {
 .Toastify__toast {
   border-radius: 8px;
 }
+
+/* Enhanced Deal Card Styles */
+.enhanced-deal-card {
+  position: relative;
+}
+
+.ai-score-badge {
+  text-align: center;
+  font-family: 'SF Pro Display', -apple-system, sans-serif;
+}
+
+.enhanced-deal-card .deal-body {
+  position: relative;
+}
+
+.enhanced-deal-card:hover .ai-score-badge {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+/* True Cost Section Animation */
+.price-section > div {
+  animation: fadeIn 0.3s ease-in;
+}
