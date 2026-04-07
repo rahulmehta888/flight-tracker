@@ -22,16 +22,9 @@ class EmailService {
       await deal.populate('flight');
 
       // Find users who should receive this notification
-      const query = {
+      const users = await User.find({
         emailNotifications: true,
-      };
-
-      // Filter by membership tier
-      if (deal.membershipRequired === 'premium') {
-        query.membershipTier = 'premium';
-      }
-
-      const users = await User.find(query);
+      });
 
       logger.info(`Sending deal notification to ${users.length} users`);
 

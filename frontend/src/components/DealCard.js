@@ -86,12 +86,6 @@ const DealCard = ({ deal, onClick }) => {
         <button onClick={handleBookClick} className="btn btn-primary" style={{ width: '100%' }}>
           Book on Google Flights
         </button>
-
-        {deal.membershipRequired === 'premium' && (
-          <p style={{ marginTop: '1rem', textAlign: 'center', color: '#ffc107', fontWeight: 'bold' }}>
-            ⭐ Premium Deal
-          </p>
-        )}
       </div>
     </div>
   );

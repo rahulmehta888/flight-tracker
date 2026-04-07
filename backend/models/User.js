@@ -23,11 +23,6 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     select: false,
   },
-  membershipTier: {
-    type: String,
-    enum: ['free', 'premium'],
-    default: 'free',
-  },
   emailNotifications: {
     type: Boolean,
     default: true,

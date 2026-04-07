@@ -34,8 +34,12 @@ const Login = () => {
   return (
     <div className="container">
       <div style={{ maxWidth: '500px', margin: '3rem auto' }}>
-        <div className="card">
-          <h1 style={{ marginBottom: '2rem', textAlign: 'center' }}>Login to Flight Tracker</h1>
+        <div className="card" style={{ animation: 'fadeIn 0.5s ease-in' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✈️</div>
+            <h1 style={{ marginBottom: '0.5rem', background: 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: '800' }}>Welcome Back!</h1>
+            <p style={{ color: 'var(--dark-gray)' }}>Login to discover amazing flight deals</p>
+          </div>
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">

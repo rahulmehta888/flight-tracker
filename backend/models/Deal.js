@@ -56,11 +56,6 @@ const dealSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  membershipRequired: {
-    type: String,
-    enum: ['free', 'premium'],
-    default: 'free',
-  },
 }, {
   timestamps: true,
 });

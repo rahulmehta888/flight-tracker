@@ -58,10 +58,9 @@ const Profile = () => {
         <h1 style={{ marginBottom: '2rem' }}>My Profile</h1>
 
         <div className="card">
-          <div style={{ padding: '1rem', background: 'var(--light-gray)', borderRadius: '8px', marginBottom: '2rem' }}>
-            <h3>Account Information</h3>
-            <p><strong>Membership Tier:</strong> {user?.membershipTier === 'premium' ? '⭐ Premium' : '🆓 Free'}</p>
-            <p><strong>Member Since:</strong> {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</p>
+          <div style={{ padding: '1.5rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white', borderRadius: '12px', marginBottom: '2rem' }}>
+            <h3 style={{ margin: '0 0 1rem 0' }}>✈️ Your Flight Tracker Account</h3>
+            <p style={{ margin: '0', opacity: 0.9 }}><strong>Member Since:</strong> {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A'}</p>
           </div>
 
           <form onSubmit={handleSubmit}>

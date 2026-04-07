@@ -168,7 +168,6 @@ class PriceTrackerService {
       } else {
         // Create new deal
         const dealQuality = this.determineDealQuality(discountPercentage, flight);
-        const membershipRequired = discountPercentage >= 70 ? 'premium' : 'free';
 
         const deal = await Deal.create({
           flight: flight._id,
@@ -180,7 +179,6 @@ class PriceTrackerService {
           savings: originalPrice - flight.price.amount,
           dealType: discountPercentage >= 70 ? 'mistake_fare' : 'regular',
           quality: dealQuality,
-          membershipRequired,
           expiryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
         });
 

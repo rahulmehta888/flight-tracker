@@ -9,7 +9,6 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    membershipTier: 'free',
   });
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
@@ -49,8 +48,12 @@ const Register = () => {
   return (
     <div className="container">
       <div style={{ maxWidth: '600px', margin: '3rem auto' }}>
-        <div className="card">
-          <h1 style={{ marginBottom: '2rem', textAlign: 'center' }}>Join Flight Tracker</h1>
+        <div className="card" style={{ animation: 'fadeIn 0.5s ease-in' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✈️</div>
+            <h1 style={{ marginBottom: '0.5rem', background: 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: '800' }}>Join Flight Tracker</h1>
+            <p style={{ color: 'var(--dark-gray)' }}>Start saving on your flights today - completely free!</p>
+          </div>
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
@@ -103,19 +106,6 @@ const Register = () => {
                 required
                 placeholder="Confirm your password"
               />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Membership Tier</label>
-              <select
-                name="membershipTier"
-                value={formData.membershipTier}
-                onChange={handleChange}
-                className="form-select"
-              >
-                <option value="free">Free (Economy deals only)</option>
-                <option value="premium">Premium (All deals + Mistake fares)</option>
-              </select>
             </div>
 
             <button
